@@ -29,24 +29,7 @@ public class BootstrapData implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Author eric = new Author("Eric", "Evans");
-		Book ddd = new Book("Domain Driven Design", "123455");
-		eric.getBooks().add(ddd);
-		ddd.getAuthors().add(eric);
-
-		authorRepository.save(eric);
-		bookRepository.save(ddd);
-
-		Author rod = new Author("Rod", "Johnson");
-		Book noEJB = new Book("J2EE random", "233123231");
-		rod.getBooks().add(noEJB);
-		noEJB.getAuthors().add(rod);
-
-		authorRepository.save(rod);
-		bookRepository.save(noEJB);
-
 		System.out.println("Started in Bootstrap");
-		System.out.println("Number of Books: " + bookRepository.count());
 
 		Address sielaAddress = new Address();
 		addressRepository.save(sielaAddress);
@@ -56,5 +39,33 @@ public class BootstrapData implements CommandLineRunner {
 		publisherRepository.save(siela);
 
 		System.out.println("Number of Publishers: " + publisherRepository.count());
+
+		Author eric = new Author("Eric", "Evans");
+		Book ddd = new Book("Domain Driven Design", "123455");
+		eric.getBooks().add(ddd);
+		ddd.getAuthors().add(eric);
+		ddd.setPublisher(siela);
+		siela.getBooks().add(ddd);
+
+		authorRepository.save(eric);
+		bookRepository.save(ddd);
+		publisherRepository.save(siela);
+
+		Author rod = new Author("Rod", "Johnson");
+		Book noEJB = new Book("J2EE random", "233123231");
+		rod.getBooks().add(noEJB);
+		noEJB.getAuthors().add(rod);
+
+		noEJB.setPublisher(siela);
+		siela.getBooks().add(noEJB);
+
+		authorRepository.save(rod);
+		bookRepository.save(noEJB);
+		publisherRepository.save(siela);
+
+
+		System.out.println("Number of Books: " + bookRepository.count());
+		System.out.println("Publisher Number of Books: " + siela.getBooks().size());
+
 	}
 }
